@@ -38,7 +38,5 @@ in licenses/.
    Full text: licenses/Apache-2.0.txt.
 
 5) Embedded sample image ("Kitchen sink (sample)")
-   A generic, synthetic illustration, not a real photo. On
-   2026-11-12 it replaced a private photo of the owner's home that
-   earlier test builds embedded; the private photo is no longer in
-   this package and is not part of this repository.
+   A generic, synthetic illustration, not a real photo of any
+   actual place.
