@@ -31,9 +31,8 @@ what the trial is for.
   verdict.
 - A dark photo scores lower regardless of mess. Good light helps.
 - The streak counts real sessions only. The built-in "Kitchen sink (sample)"
-  area uses a generic, illustrative sink image bundled with the app as its
-  BEFORE and never counts toward the streak; attaching an AFTER to it asks
-  for explicit confirmation first.
+  area uses your own volunteered photo as its BEFORE and never counts toward
+  the streak; attaching an AFTER to it asks for explicit confirmation first.
 
 ## Install
 
@@ -61,11 +60,7 @@ state.
 ## Privacy
 
 Camera permission only. No INTERNET permission at all. Backup and
-device-to-device transfer are disabled for app data.
-
-The bundled sample sink image is a generic, synthetic illustration, not a
-real photo of anyone's home. (The 24 Oct 2026 test build embedded a private
-photo as the sample; it was replaced on 12 Nov 2026 and the download was
-updated.) This package was re-signed with a new debug key during that
-replacement: if you installed the 24 Oct build, uninstall it first - Android
-will not update across different signing keys.
+device-to-device transfer are disabled for app data. This APK also embeds one
+private photo of your home (the sample), which is why this particular build
+should stay with you - that is a privacy ask, not a licensing restriction
+(see NOTICE for the licenses, which keep all your rights intact).

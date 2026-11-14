@@ -1,0 +1,44 @@
+CLEAN SLATE - component provenance and licensing
+=================================================
+Prepared 2026-10-24. Factual provenance record, not a legal opinion
+or a warranty of compliance.
+
+This handoff conveys the APK and its complete corresponding source to
+the owner, so the licenses below apply to it. Full license texts are
+in licenses/.
+
+1) YOLO11n INT8 LiteRT model (bundled in the APK, app/src/main/assets/)
+   Source: https://huggingface.co/Arm/yolo11n-int8-litert-vivo-x300
+   Publisher: Arm. Exported from Ultralytics YOLO11n.
+   License: GNU Affero General Public License v3.0 (agpl-3.0 tag on the
+   model repository; Ultralytics also offers a commercial Enterprise
+   License). Full text: licenses/AGPL-3.0.txt.
+   Corresponding source for the model is publicly available from the
+   model repository above and from Ultralytics YOLO11:
+   https://github.com/ultralytics/ultralytics
+
+2) Application code (Clean Slate, Kotlin, everything under app/src)
+   The app links and runs the AGPL-3.0 model as one combined work, so
+   this handoff conveys the application code under AGPL-3.0 as well,
+   consistent with the model license's terms for combined works.
+   Full text: licenses/AGPL-3.0.txt.
+   That settles this handoff. Separately, the owner may later choose
+   any license for his own application code standing alone (without
+   the model) - that choice is his and is not made here.
+
+3) TensorFlow Lite runtime
+   Actual dependency: org.tensorflow:tensorflow-lite:2.17.0
+   License: Apache License 2.0
+   Source: https://github.com/tensorflow/tensorflow
+   Full text: licenses/Apache-2.0.txt.
+
+4) AndroidX / Jetpack Compose / CameraX libraries
+   License: Apache License 2.0
+   Source: https://github.com/androidx/androidx
+   Full text: licenses/Apache-2.0.txt.
+
+5) Embedded sample image ("Kitchen sink (sample)")
+   A generic, synthetic illustration, not a real photo. On
+   2026-11-12 it replaced a private photo of the owner's home that
+   earlier test builds embedded; the private photo is no longer in
+   this package and is not part of this repository.
