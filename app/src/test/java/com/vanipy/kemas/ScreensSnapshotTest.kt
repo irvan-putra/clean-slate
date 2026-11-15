@@ -19,16 +19,32 @@ class ScreensSnapshotTest {
         theme = "android:Theme.Material.Light.NoActionBar",
     )
 
-    private fun seededStore(): Store {
-        val store = Store(File.createTempFile("kemas-db", ".json"))
+    private fun seededStore(): Pair<Store, File> {
+        val file = File.createTempFile("kemas-db", ".json")
+        val store = Store(file)
         store.addArea("Desk")
         store.addArea("Kitchen counter")
-        return store
+        return store to file
+    }
+
+    // Snapshot dates must not drift with the CI clock. This instant matches
+    // the original deterministic visual fixture: Sat 24 Oct, 08:17 UTC.
+    private fun freezeSessionTimes(file: File) {
+        val root = org.json.JSONObject(file.readText())
+        val sessions = root.getJSONArray("sessions")
+        for (i in 0 until sessions.length()) {
+            val session = sessions.getJSONObject(i)
+            session.put("createdAt", 1792829820000L)
+            if (session.has("completedAt") && !session.isNull("completedAt")) {
+                session.put("completedAt", 1792829820000L)
+            }
+        }
+        file.writeText(root.toString())
     }
 
     @Test
     fun homeScreen() {
-        val store = seededStore()
+        val (store, _) = seededStore()
         paparazzi.snapshot {
             HomeScreen(store = store, version = 0, onOpenArea = {}, onAreaAdded = {})
         }
@@ -36,13 +52,16 @@ class ScreensSnapshotTest {
 
     @Test
     fun areaScreenWithOpenSession() {
-        val store = seededStore()
-        val area = store.areas().first()
-        store.createSession(area.id, "/nonexistent/before.jpg")
+        val (initialStore, file) = seededStore()
+        val area = initialStore.areas().first()
+        initialStore.createSession(area.id, "/nonexistent/before.jpg")
+        freezeSessionTimes(file)
+        val store = Store(file)
+        val stableArea = store.areas().first()
         paparazzi.snapshot {
             AreaScreen(
                 store = store,
-                areaId = area.id,
+                areaId = stableArea.id,
                 version = 0,
                 onTakeBefore = {},
                 onTakeAfter = {},
@@ -53,15 +72,15 @@ class ScreensSnapshotTest {
 
     @Test
     fun verdictScreenCompleted() {
-        val store = seededStore()
-        val area = store.areas().first()
-        val session = store.createSession(area.id, "/nonexistent/before.jpg")
+        val (initialStore, file) = seededStore()
+        val area = initialStore.areas().first()
+        val session = initialStore.createSession(area.id, "/nonexistent/before.jpg")
         val dir = File.createTempFile("verdict-photos", "").let { it.delete(); it.mkdirs(); it }
         val overlayFile = File(dir, "overlay.jpg")
         javaClass.getResourceAsStream("/testdata/overlay.jpg")!!.use { input ->
             overlayFile.outputStream().use { input.copyTo(it) }
         }
-        store.completeSession(
+        initialStore.completeSession(
             session.id,
             "/nonexistent/after.jpg",
             overlayFile.absolutePath,
@@ -69,6 +88,8 @@ class ScreensSnapshotTest {
             "Looks cleared: 4 recognized items before, 1 after (cup 3->1). This only counts objects the detector knows - it can't see dirt, grease or whether you actually washed them.",
             "Items detected: 4 before -> 1 after (bottle: 1 -> 0, cup: 3 -> 1)",
         )
+        freezeSessionTimes(file)
+        val store = Store(file)
         paparazzi.snapshot {
             VerdictScreen(
                 store = store,
@@ -89,7 +110,7 @@ class ScreensSnapshotTest {
 
     @Test
     fun areaScreenWithSampleSession() {
-        val store = seededStore()
+        val (store, _) = seededStore()
         val area = store.addArea("Kitchen sink (sample)")
         store.createSession(area.id, "/nonexistent/sample-before.jpg", sample = true)
         paparazzi.snapshot {
@@ -106,14 +127,17 @@ class ScreensSnapshotTest {
 
     @Test
     fun areaScreenWithHistory() {
-        val store = seededStore()
-        val area = store.areas().first()
-        val s = store.createSession(area.id, "/nonexistent/before.jpg")
-        store.completeSession(s.id, "/nonexistent/after.jpg", null, 23.4f, null)
+        val (initialStore, file) = seededStore()
+        val area = initialStore.areas().first()
+        val session = initialStore.createSession(area.id, "/nonexistent/before.jpg")
+        initialStore.completeSession(session.id, "/nonexistent/after.jpg", null, 23.4f, null)
+        freezeSessionTimes(file)
+        val store = Store(file)
+        val stableArea = store.areas().first()
         paparazzi.snapshot {
             AreaScreen(
                 store = store,
-                areaId = area.id,
+                areaId = stableArea.id,
                 version = 0,
                 onTakeBefore = {},
                 onTakeAfter = {},
