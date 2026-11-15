@@ -23,15 +23,15 @@ what the trial is for.
 ## Known limits (please read before judging it)
 
 - The object recognizer knows the 80 general COCO categories (bottle, cup,
-  bowl, chair, ...). It does NOT know cookware/dishes well: on the real sample
-  sink photo it found nothing, and the app honestly reports "unable to assess
-  recognized objects" rather than pretending.
+  bowl, chair, ...). It does NOT reliably recognize cookware or dishes; in
+  ambiguous scenes the app can report "unable to assess recognized objects"
+  rather than pretending.
 - The verdict covers only recognized-object changes and pixel-visible change.
   It cannot see dirt, grease, dust, or hygiene, and says so next to every
   verdict.
 - A dark photo scores lower regardless of mess. Good light helps.
 - The streak counts real sessions only. The built-in "Kitchen sink (sample)"
-  area uses your own volunteered photo as its BEFORE and never counts toward
+  area uses a bundled generic illustration as its BEFORE and never counts toward
   the streak; attaching an AFTER to it asks for explicit confirmation first.
 
 ## Install
@@ -52,15 +52,13 @@ app-private storage and are excluded from Android backup and device-transfer,
 so uninstalling wipes them completely.
 
 Separate copies you made yourself are not affected and stay until you delete
-them: the downloaded APK file, the source archive if you saved it, and the
-original sample photo you shared (the app only holds its own copy of it).
+them: the downloaded APK file and the source archive if you saved it.
 Clearing the app's data without uninstalling resets it to the fresh sample
 state.
 
 ## Privacy
 
 Camera permission only. No INTERNET permission at all. Backup and
-device-to-device transfer are disabled for app data. This APK also embeds one
-private photo of your home (the sample), which is why this particular build
-should stay with you - that is a privacy ask, not a licensing restriction
-(see NOTICE for the licenses, which keep all your rights intact).
+device-to-device transfer are disabled for app data. The bundled sample is a
+generic, synthetic illustration, not a real photo of any actual place (see
+NOTICE for the licenses, which keep all your rights intact).
