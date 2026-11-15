@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.data
+package com.vanipy.kemas.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

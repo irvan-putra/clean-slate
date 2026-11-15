@@ -1,6 +1,6 @@
-package com.vanipy.cleanslate
+package com.vanipy.kemas
 
-import com.vanipy.cleanslate.analysis.VerdictMaker
+import com.vanipy.kemas.analysis.VerdictMaker
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

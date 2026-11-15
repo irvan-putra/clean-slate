@@ -4,7 +4,7 @@
     <uses-feature android:name="android.hardware.camera.any" android:required="true" />
     <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:label="Clean Slate"
+        android:label="Kemas"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:allowBackup="false"
         android:fullBackupContent="false"

@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.ui
+package com.vanipy.kemas.ui
 
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
@@ -33,12 +33,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.vanipy.cleanslate.analysis.ClutterCounter
-import com.vanipy.cleanslate.analysis.DiffEngine
-import com.vanipy.cleanslate.analysis.VerdictMaker
-import com.vanipy.cleanslate.data.Area
-import com.vanipy.cleanslate.data.Session
-import com.vanipy.cleanslate.data.Store
+import com.vanipy.kemas.analysis.ClutterCounter
+import com.vanipy.kemas.analysis.DiffEngine
+import com.vanipy.kemas.analysis.VerdictMaker
+import com.vanipy.kemas.data.Area
+import com.vanipy.kemas.data.Session
+import com.vanipy.kemas.data.Store
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -126,7 +126,7 @@ fun HomeScreen(store: Store, version: Int, onOpenArea: (String) -> Unit, onAreaA
     val streak = remember(version) { store.streakDays() }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Clean Slate", style = MaterialTheme.typography.headlineMedium)
+        Text("Kemas", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(4.dp))
         Text(
             if (streak > 0) "Streak: $streak day${if (streak == 1) "" else "s"}" else "No streak yet - finish a before/after check.",

@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.analysis
+package com.vanipy.kemas.analysis
 
 /**
  * Semantic judgment of visible cleaning progress, designed to run on-device.

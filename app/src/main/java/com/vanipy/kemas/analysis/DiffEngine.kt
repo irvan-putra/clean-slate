@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.analysis
+package com.vanipy.kemas.analysis
 
 /**
  * Pure pixel comparison between two equally-sized ARGB pixel arrays.

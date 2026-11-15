@@ -1,6 +1,6 @@
-package com.vanipy.cleanslate
+package com.vanipy.kemas
 
-import com.vanipy.cleanslate.analysis.YoloDecoder
+import com.vanipy.kemas.analysis.YoloDecoder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

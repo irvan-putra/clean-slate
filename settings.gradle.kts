@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "cleanslate"
+rootProject.name = "kemas"
 include(":app")

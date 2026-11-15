@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.vanipy.cleanslate"
+    namespace = "com.vanipy.kemas"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.vanipy.cleanslate"
+        applicationId = "com.vanipy.kemas"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

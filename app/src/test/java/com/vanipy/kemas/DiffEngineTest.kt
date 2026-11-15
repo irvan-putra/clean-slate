@@ -1,6 +1,6 @@
-package com.vanipy.cleanslate
+package com.vanipy.kemas
 
-import com.vanipy.cleanslate.analysis.DiffEngine
+import com.vanipy.kemas.analysis.DiffEngine
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

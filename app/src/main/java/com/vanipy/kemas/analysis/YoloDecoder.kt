@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.analysis
+package com.vanipy.kemas.analysis
 
 import kotlin.math.max
 import kotlin.math.min

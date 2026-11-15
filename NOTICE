@@ -1,4 +1,4 @@
-CLEAN SLATE - component provenance and licensing
+KEMAS - component provenance and licensing
 =================================================
 Prepared 2026-10-24. Factual provenance record, not a legal opinion
 or a warranty of compliance.
@@ -17,7 +17,7 @@ in licenses/.
    model repository above and from Ultralytics YOLO11:
    https://github.com/ultralytics/ultralytics
 
-2) Application code (Clean Slate, Kotlin, everything under app/src)
+2) Application code (Kemas, Kotlin, everything under app/src)
    The app links and runs the AGPL-3.0 model as one combined work, so
    this handoff conveys the application code under AGPL-3.0 as well,
    consistent with the model license's terms for combined works.

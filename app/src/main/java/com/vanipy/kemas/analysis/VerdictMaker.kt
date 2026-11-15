@@ -1,4 +1,4 @@
-package com.vanipy.cleanslate.analysis
+package com.vanipy.kemas.analysis
 
 /**
  * Builds a best-effort verdict from what the app actually measured, with the

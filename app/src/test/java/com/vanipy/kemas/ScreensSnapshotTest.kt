@@ -1,10 +1,10 @@
-package com.vanipy.cleanslate
+package com.vanipy.kemas
 
-import com.vanipy.cleanslate.data.Store
-import com.vanipy.cleanslate.ui.AreaScreen
-import com.vanipy.cleanslate.ui.SampleConfirmDialog
-import com.vanipy.cleanslate.ui.VerdictScreen
-import com.vanipy.cleanslate.ui.HomeScreen
+import com.vanipy.kemas.data.Store
+import com.vanipy.kemas.ui.AreaScreen
+import com.vanipy.kemas.ui.SampleConfirmDialog
+import com.vanipy.kemas.ui.VerdictScreen
+import com.vanipy.kemas.ui.HomeScreen
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import org.junit.Rule
@@ -20,7 +20,7 @@ class ScreensSnapshotTest {
     )
 
     private fun seededStore(): Store {
-        val store = Store(File.createTempFile("cleanslate-db", ".json"))
+        val store = Store(File.createTempFile("kemas-db", ".json"))
         store.addArea("Desk")
         store.addArea("Kitchen counter")
         return store

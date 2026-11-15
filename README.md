@@ -1,4 +1,4 @@
-# Clean Slate
+# Kemas
 
 A private, offline Android app for before/after cleaning photos. Take a BEFORE
 photo of an area, clean it, take an AFTER photo with the BEFORE ghosted on top
@@ -42,7 +42,7 @@ what the trial is for.
    prompt is the normal sideload flow and is fine to accept for this file.
 3. If Play Protect warns or blocks: stop there and tell me the exact message.
    Do not tap through it - we look at it together first.
-4. Open "Clean Slate" and allow the camera permission.
+4. Open "Kemas" and allow the camera permission.
 
 ## Uninstall / recovery
 
