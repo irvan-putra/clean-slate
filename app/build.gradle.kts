@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "app.cleanslate"
+    namespace = "com.vanipy.cleanslate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "app.cleanslate"
+        applicationId = "com.vanipy.cleanslate"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

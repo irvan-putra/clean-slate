@@ -1,4 +1,4 @@
-package app.cleanslate.data
+package com.vanipy.cleanslate.data
 
 import android.content.Context
 import java.io.File

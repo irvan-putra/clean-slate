@@ -1,6 +1,6 @@
-package app.cleanslate
+package com.vanipy.cleanslate
 
-import app.cleanslate.analysis.YoloDecoder
+import com.vanipy.cleanslate.analysis.YoloDecoder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

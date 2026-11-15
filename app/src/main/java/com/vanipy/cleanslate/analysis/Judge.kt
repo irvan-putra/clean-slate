@@ -1,4 +1,4 @@
-package app.cleanslate.analysis
+package com.vanipy.cleanslate.analysis
 
 /**
  * Semantic judgment of visible cleaning progress, designed to run on-device.

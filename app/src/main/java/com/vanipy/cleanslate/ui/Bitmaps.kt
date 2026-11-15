@@ -1,4 +1,4 @@
-package app.cleanslate.ui
+package com.vanipy.cleanslate.ui
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

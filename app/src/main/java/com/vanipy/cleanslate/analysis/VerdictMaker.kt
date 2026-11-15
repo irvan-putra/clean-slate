@@ -1,4 +1,4 @@
-package app.cleanslate.analysis
+package com.vanipy.cleanslate.analysis
 
 /**
  * Builds a best-effort verdict from what the app actually measured, with the

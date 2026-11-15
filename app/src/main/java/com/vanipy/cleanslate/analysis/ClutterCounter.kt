@@ -1,4 +1,4 @@
-package app.cleanslate.analysis
+package com.vanipy.cleanslate.analysis
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,4 +1,4 @@
-package app.cleanslate.data
+package com.vanipy.cleanslate.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

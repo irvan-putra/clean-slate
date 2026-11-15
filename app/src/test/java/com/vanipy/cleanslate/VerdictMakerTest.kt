@@ -1,6 +1,6 @@
-package app.cleanslate
+package com.vanipy.cleanslate
 
-import app.cleanslate.analysis.VerdictMaker
+import com.vanipy.cleanslate.analysis.VerdictMaker
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

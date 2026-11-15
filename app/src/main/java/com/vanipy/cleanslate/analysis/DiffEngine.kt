@@ -1,4 +1,4 @@
-package app.cleanslate.analysis
+package com.vanipy.cleanslate.analysis
 
 /**
  * Pure pixel comparison between two equally-sized ARGB pixel arrays.

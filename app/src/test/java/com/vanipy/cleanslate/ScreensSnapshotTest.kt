@@ -1,10 +1,10 @@
-package app.cleanslate
+package com.vanipy.cleanslate
 
-import app.cleanslate.data.Store
-import app.cleanslate.ui.AreaScreen
-import app.cleanslate.ui.SampleConfirmDialog
-import app.cleanslate.ui.VerdictScreen
-import app.cleanslate.ui.HomeScreen
+import com.vanipy.cleanslate.data.Store
+import com.vanipy.cleanslate.ui.AreaScreen
+import com.vanipy.cleanslate.ui.SampleConfirmDialog
+import com.vanipy.cleanslate.ui.VerdictScreen
+import com.vanipy.cleanslate.ui.HomeScreen
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import org.junit.Rule

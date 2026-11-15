@@ -1,4 +1,4 @@
-package app.cleanslate.ui
+package com.vanipy.cleanslate.ui
 
 import android.Manifest
 import android.content.pm.PackageManager

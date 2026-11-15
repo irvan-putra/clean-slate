@@ -1,4 +1,4 @@
-package app.cleanslate.ui
+package com.vanipy.cleanslate.ui
 
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
@@ -33,12 +33,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import app.cleanslate.analysis.ClutterCounter
-import app.cleanslate.analysis.DiffEngine
-import app.cleanslate.analysis.VerdictMaker
-import app.cleanslate.data.Area
-import app.cleanslate.data.Session
-import app.cleanslate.data.Store
+import com.vanipy.cleanslate.analysis.ClutterCounter
+import com.vanipy.cleanslate.analysis.DiffEngine
+import com.vanipy.cleanslate.analysis.VerdictMaker
+import com.vanipy.cleanslate.data.Area
+import com.vanipy.cleanslate.data.Session
+import com.vanipy.cleanslate.data.Store
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

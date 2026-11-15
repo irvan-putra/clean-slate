@@ -1,6 +1,6 @@
-package app.cleanslate
+package com.vanipy.cleanslate
 
-import app.cleanslate.analysis.DiffEngine
+import com.vanipy.cleanslate.analysis.DiffEngine
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
