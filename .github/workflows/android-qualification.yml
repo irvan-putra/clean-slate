@@ -34,10 +34,23 @@ jobs:
       - name: Ensure Gradle wrapper is executable
         run: chmod +x ./gradlew
 
-      - name: Record and verify Paparazzi snapshots, run unit tests, and assemble debug APK
-        run: ./gradlew --no-daemon recordPaparazziDebug verifyPaparazziDebug testDebugUnitTest assembleDebug
+      - name: Record Paparazzi snapshots
+        run: ./gradlew --no-daemon recordPaparazziDebug
+
+      - name: Verify Paparazzi snapshots
+        if: always() && !cancelled()
+        run: ./gradlew --no-daemon verifyPaparazziDebug
+
+      - name: Run unit tests
+        if: always() && !cancelled()
+        run: ./gradlew --no-daemon testDebugUnitTest
+
+      - name: Assemble debug APK
+        if: always() && !cancelled()
+        run: ./gradlew --no-daemon assembleDebug
 
       - name: Assert package ID in assembled debug APK
+        if: always() && !cancelled()
         shell: bash
         run: |
           set -euo pipefail
@@ -47,12 +60,15 @@ jobs:
           test -x "$AAPT"
           "$AAPT" dump badging "$APK" | grep -F "package: name='com.vanipy.kemas'"
 
-      - name: Upload qualification outputs
+      - name: Upload qualification outputs and test reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kemas-qualification-${{ github.sha }}
           path: |
             app/build/outputs/apk/debug/*.apk
             app/src/test/snapshots/images/**/*.png
-          if-no-files-found: error
+            app/build/reports/tests/testDebugUnitTest/**
+            app/build/test-results/testDebugUnitTest/**
+          if-no-files-found: warn
           retention-days: 5
