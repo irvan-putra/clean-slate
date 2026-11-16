@@ -62,3 +62,8 @@ Camera permission only. No INTERNET permission at all. Backup and
 device-to-device transfer are disabled for app data. The bundled sample is a
 generic, synthetic illustration, not a real photo of any actual place (see
 NOTICE for the licenses, which keep all your rights intact).
+
+## Research notes
+
+- [On-device AI on Android](docs/research/on-device-ai-on-android.md) - an exploration of model options; no phone measurements were made.
+- [Soft talking ball](docs/research/soft-talking-ball.md) - a turn-taking idea, with recording explicitly optional and consent-based.
