@@ -65,5 +65,7 @@ NOTICE for the licenses, which keep all your rights intact).
 
 ## Research notes
 
+- [Small speech and pose model download sizes](docs/research/small-model-sizes-whisper-yolo.md) - host-listed file sizes and configured demo routes; no speed or memory measurements.
+- [Raised-hand pose-model comparison (historical, unreproduced)](docs/research/pose-models-for-raised-hand-counting-unreproduced.md) - a limited three-photo laptop test record; not a benchmark or current performance claim.
 - [On-device AI on Android](docs/research/on-device-ai-on-android.md) - an exploration of model options; no phone measurements were made.
 - [Soft talking ball](docs/research/soft-talking-ball.md) - a turn-taking idea, with recording explicitly optional and consent-based.
