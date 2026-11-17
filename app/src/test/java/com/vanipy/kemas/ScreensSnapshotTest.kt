@@ -5,6 +5,9 @@ import com.vanipy.kemas.ui.AreaScreen
 import com.vanipy.kemas.ui.SampleConfirmDialog
 import com.vanipy.kemas.ui.VerdictScreen
 import com.vanipy.kemas.ui.HomeScreen
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.unit.dp
+import com.vanipy.kemas.ui.AppSafeArea
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import org.junit.Rule
@@ -47,6 +50,38 @@ class ScreensSnapshotTest {
         val (store, _) = seededStore()
         paparazzi.snapshot {
             HomeScreen(store = store, version = 0, onOpenArea = {}, onAreaAdded = {})
+        }
+    }
+
+    // Fixed inset fixtures exercise the actual shared root on narrow phone layouts.
+    // Insets are in dp, matching system bars and the keyboard at any display density.
+    @Test
+    fun homeWithThreeButtonNavigation() {
+        val (store, _) = seededStore()
+        paparazzi.snapshot {
+            AppSafeArea(WindowInsets(top = 24.dp, bottom = 48.dp)) {
+                HomeScreen(store, 0, {}, {})
+            }
+        }
+    }
+
+    @Test
+    fun homeWithGestureNavigation() {
+        val (store, _) = seededStore()
+        paparazzi.snapshot {
+            AppSafeArea(WindowInsets(top = 24.dp, bottom = 24.dp)) {
+                HomeScreen(store, 0, {}, {})
+            }
+        }
+    }
+
+    @Test
+    fun homeWithKeyboardVisible() {
+        val (store, _) = seededStore()
+        paparazzi.snapshot {
+            AppSafeArea(WindowInsets(top = 24.dp, bottom = 300.dp)) {
+                HomeScreen(store, 0, {}, {})
+            }
         }
     }
 

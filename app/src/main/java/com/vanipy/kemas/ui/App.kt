@@ -4,6 +4,12 @@ import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,6 +58,15 @@ sealed interface Screen {
     data class CaptureBefore(val areaId: String) : Screen
     data class CaptureAfter(val areaId: String, val sessionId: String) : Screen
     data class Verdict(val sessionId: String) : Screen
+}
+
+/** One safe area around every screen, including camera controls and the keyboard. */
+@Composable
+fun AppSafeArea(
+    insets: WindowInsets = WindowInsets.safeDrawing.union(WindowInsets.ime),
+    content: @Composable () -> Unit,
+) {
+    Box(Modifier.fillMaxSize().windowInsetsPadding(insets)) { content() }
 }
 
 @Composable
@@ -126,7 +141,7 @@ fun HomeScreen(store: Store, version: Int, onOpenArea: (String) -> Unit, onAreaA
     val streak = remember(version) { store.streakDays() }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Kemas", style = MaterialTheme.typography.headlineMedium)
+        Text("kemas", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(4.dp))
         Text(
             if (streak > 0) "Streak: $streak day${if (streak == 1) "" else "s"}" else "No streak yet - finish a before/after check.",
