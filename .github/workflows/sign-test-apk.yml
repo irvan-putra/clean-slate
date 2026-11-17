@@ -1,0 +1,99 @@
+name: sign test apk
+# Manual only. Tests, builds the debug variant and re-signs it with the dedicated kemas key. Uploads a workflow artifact only.
+# DRAFT, NOT ACTIVE until the kemas signing key exists, its four secrets are set, and the three values marked SET below are filled in.
+# It never creates a release, tag or commit. A reviewed person attaches the APK to a release by hand.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_sign:
+        description: Type SIGN to build and sign a test APK with the kemas key
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+jobs:
+  gate:
+    # No secrets here. Proves the verifier rejects bad input, and that the repo's own CI passed on this exact commit.
+    if: ${{ inputs.confirm_sign == 'SIGN' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verifier self-test (synthetic bad inputs must fail)
+        run: bash tools/test-verify-signed-apk.sh
+      - name: Repo CI must have succeeded on this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          n=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/android-qualification.yml/runs?head_sha=$GITHUB_SHA&status=success&per_page=1" | python3 -c 'import json,sys; print(json.load(sys.stdin)["total_count"])')
+          [ "$n" -ge 1 ] || { echo "no successful android-qualification.yml run for $GITHUB_SHA"; exit 1; }
+  sign:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      # SET: 64 hex digits (uppercase) of the key certificate, printed by the key generator. Not a secret.
+      EXPECTED_CERT_SHA256: REPLACE_AFTER_KEY_CREATION
+      # SET per release: must equal app/build.gradle and the icon badge. Edit in the release commit.
+      EXPECTED_VERSION_NAME: '0.2.1'
+      EXPECTED_VERSION_CODE: '3'
+      EXPECTED_PACKAGE: com.vanipy.kemas
+      EXPECTED_LABEL: kemas
+      BUILD_TOOLS_VERSION: 34.0.0
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: Gradle 8.10.2 (checksum verified)
+        run: |
+          curl -sL -o /tmp/g.zip https://services.gradle.org/distributions/gradle-8.10.2-bin.zip
+          echo "31c55713e40233a8303827ceb42ca48a47267a0ad4bab9177123121e71524c26  /tmp/g.zip" | sha256sum -c -
+          unzip -q /tmp/g.zip -d /tmp
+      - name: Unit tests
+        run: /tmp/gradle-8.10.2/bin/gradle --no-daemon testDebugUnitTest
+      - name: Build debug APK
+        run: /tmp/gradle-8.10.2/bin/gradle --no-daemon assembleDebug
+      - name: Align, sign and verify
+        env:
+          KS_B64: ${{ secrets.KEMAS_SIGNING_KEYSTORE_BASE64 }}
+          KS_STORE_PW: ${{ secrets.KEMAS_SIGNING_STORE_PASSWORD }}
+          KS_KEY_PW: ${{ secrets.KEMAS_SIGNING_KEY_PASSWORD }}
+          KS_ALIAS: ${{ secrets.KEMAS_SIGNING_KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_CERT_SHA256" =~ ^[0-9A-F]{64}$ ]] || { echo "EXPECTED_CERT_SHA256 not filled in; refusing to sign"; exit 1; }
+          bt="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION"
+          [ -x "$bt/apksigner" ] && [ -x "$bt/zipalign" ] && [ -x "$bt/aapt2" ]
+          [ "$(ls app/build/outputs/apk/debug/*.apk | wc -l)" = 1 ]
+          src=$(ls app/build/outputs/apk/debug/*.apk)
+          work=$(mktemp -d "$RUNNER_TEMP/sign.XXXXXX"); chmod 700 "$work"
+          trap 'rm -rf "$work"' EXIT
+          printf '%s' "$KS_B64" | base64 -d > "$work/app.jks"; chmod 600 "$work/app.jks"
+          out="kemas-v${EXPECTED_VERSION_NAME}.apk"
+          "$bt/zipalign" -f -p 4 "$src" "$work/aligned.apk"
+          printf '%s\n%s\n' "$KS_STORE_PW" "$KS_KEY_PW" > "$work/pw"
+          "$bt/apksigner" sign --ks "$work/app.jks" --ks-key-alias "$KS_ALIAS" \
+            --ks-pass "file:$work/pw" --key-pass "file:$work/pw" \
+            --v1-signing-enabled false --v2-signing-enabled true --v3-signing-enabled true \
+            --out "$out" "$work/aligned.apk"
+          rm -f "$work/pw" "$out.idsig"
+          "$bt/apksigner" verify --verbose --print-certs "$out" > verify.txt
+          "$bt/aapt2" dump badging "$out" > badging.txt
+          bash tools/verify-signed-apk.sh verify.txt badging.txt
+          sha256sum "$out" | tee "$out.sha256"
+      - name: Upload signed test APK artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: kemas-signed-test
+          path: |
+            kemas-v*.apk
+            kemas-v*.apk.sha256
+            verify.txt
+            badging.txt
+          if-no-files-found: error
