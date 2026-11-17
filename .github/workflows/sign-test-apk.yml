@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 45
     env:
       # SET: 64 hex digits (uppercase) of the key certificate, printed by the key generator. Not a secret.
-      EXPECTED_CERT_SHA256: REPLACE_AFTER_KEY_CREATION
+      EXPECTED_CERT_SHA256: 82748B44EA1420F79FA61029BB1B8E35687E2B78C832CB49CBAC2FA7DE7642C1
       # SET per release: must equal app/build.gradle and the icon badge. Edit in the release commit.
       EXPECTED_VERSION_NAME: '0.2.1'
       EXPECTED_VERSION_CODE: '3'
