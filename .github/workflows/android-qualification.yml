@@ -58,7 +58,7 @@ jobs:
           test -n "$APK"
           AAPT=$(find "$ANDROID_HOME/build-tools" -mindepth 2 -maxdepth 2 -type f -name aapt | sort -V | tail -1)
           test -x "$AAPT"
-          "$AAPT" dump badging "$APK" | grep -F "package: name='com.vanipy.kemas' versionCode='4' versionName='0.2.2'"
+          "$AAPT" dump badging "$APK" | grep -F "package: name='com.vanipy.kemas' versionCode='5' versionName='0.2.3'"
 
       - name: Upload qualification outputs and test reports
         if: always()
