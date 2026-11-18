@@ -36,6 +36,15 @@ jobs:
 
       - name: Record Paparazzi snapshots
         run: ./gradlew --no-daemon recordPaparazziDebug
+      - name: Upload recorded snapshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: kemas-recorded-snapshots
+          path: |
+            app/src/test/snapshots/images/*.png
+            app/build/widget-snapshots/*.png
+          if-no-files-found: warn
+          retention-days: 5
 
       - name: Verify Paparazzi snapshots
         if: always() && !cancelled()

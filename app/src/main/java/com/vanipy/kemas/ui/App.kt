@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -45,6 +46,7 @@ import com.vanipy.kemas.analysis.VerdictMaker
 import com.vanipy.kemas.data.Area
 import com.vanipy.kemas.data.Session
 import com.vanipy.kemas.data.Store
+import com.vanipy.kemas.demo.DemoMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -74,6 +76,8 @@ fun App(store: Store, photosDir: File) {
     val stack = remember { mutableStateListOf<Screen>(Screen.Home) }
     // Bumped whenever the store changes so lists re-read.
     var version by remember { mutableIntStateOf(0) }
+    val context = LocalContext.current
+    var demoOn by remember { mutableStateOf(DemoMode.isOn(context)) }
 
     BackHandler(enabled = stack.size > 1) { stack.removeAt(stack.lastIndex) }
 
@@ -83,6 +87,11 @@ fun App(store: Store, photosDir: File) {
             version = version,
             onOpenArea = { stack.add(Screen.AreaDetail(it)) },
             onAreaAdded = { version++ },
+            demoOn = demoOn,
+            onToggleDemo = {
+                DemoMode.set(context, !demoOn)
+                demoOn = !demoOn
+            },
         )
         is Screen.AreaDetail -> AreaScreen(
             store = store,
@@ -135,7 +144,14 @@ fun App(store: Store, photosDir: File) {
 }
 
 @Composable
-fun HomeScreen(store: Store, version: Int, onOpenArea: (String) -> Unit, onAreaAdded: () -> Unit) {
+fun HomeScreen(
+    store: Store,
+    version: Int,
+    onOpenArea: (String) -> Unit,
+    onAreaAdded: () -> Unit,
+    demoOn: Boolean,
+    onToggleDemo: () -> Unit,
+) {
     var newArea by remember { mutableStateOf("") }
     val areas = remember(version) { store.areas() }
     val streak = remember(version) { store.streakDays() }
@@ -147,6 +163,21 @@ fun HomeScreen(store: Store, version: Int, onOpenArea: (String) -> Unit, onAreaA
             if (streak > 0) "Streak: $streak day${if (streak == 1) "" else "s"}" else "No streak yet - finish a before/after check.",
             style = MaterialTheme.typography.bodyMedium,
         )
+        if (demoOn) {
+            Spacer(Modifier.height(4.dp))
+            Text(
+                "DEMO - the widget shows a made-up zone with generic photos, not your real checks",
+                color = Color(0xFFB42828),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+        Spacer(Modifier.height(4.dp))
+        TextButton(onClick = onToggleDemo) {
+            Text(
+                if (demoOn) "Widget demo data: ON (made-up) - tap to switch back"
+                else "Widget demo data: OFF - tap to show a made-up zone"
+            )
+        }
         Spacer(Modifier.height(16.dp))
         LazyColumn(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(areas, key = { it.id }) { area ->
