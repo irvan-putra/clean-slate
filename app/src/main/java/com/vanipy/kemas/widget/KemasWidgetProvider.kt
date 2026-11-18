@@ -61,7 +61,7 @@ class KemasWidgetProvider : AppWidgetProvider() {
         internal fun buildViews(c: Context, compact: Boolean, tiny: Boolean = false): RemoteViews {
             val v = RemoteViews(c.packageName, if (tiny) R.layout.widget_kemas_tiny else if (compact) R.layout.widget_kemas_compact else R.layout.widget_kemas)
             val demo = DemoMode.isOn(c)
-            v.setViewVisibility(R.id.widget_demo_badge, if (demo) View.VISIBLE else View.GONE)
+            v.setViewVisibility(R.id.widget_demo_badge, View.GONE)
 
             if (demo) {
                 v.setTextViewText(R.id.widget_zone, DemoData.ZONE)
@@ -71,7 +71,7 @@ class KemasWidgetProvider : AppWidgetProvider() {
                 v.setImageViewBitmap(R.id.widget_before, loadAsset(c, DemoData.BEFORE_ASSET))
                 v.setImageViewBitmap(R.id.widget_after, loadAsset(c, DemoData.AFTER_ASSET))
                 v.setViewVisibility(R.id.widget_after, View.VISIBLE)
-                v.setTextViewText(R.id.widget_hint, "Made-up zone with generic illustrative photos")
+                v.setTextViewText(R.id.widget_hint, "")
             } else {
                 bindReal(c, v)
             }
