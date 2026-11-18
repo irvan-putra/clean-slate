@@ -48,7 +48,7 @@ class WidgetRenderTest {
         com.vanipy.kemas.demo.DemoMode.set(c, true)
         for (columns in 1..5) for (rows in 1..6) {
             w = columns * 73 - 16; h = rows * 96 - 16
-            val rv = KemasWidgetProvider.buildViews(c, h < 110, w < 150)
+            val rv = KemasWidgetProvider.buildViews(c, h < 110, w < 100)
             val view = rv.apply(c, FrameLayout(c))
             assertEquals(View.GONE, view.findViewById<View>(com.vanipy.kemas.R.id.widget_demo_badge).visibility)
             snapshot(rv, c, "span-${columns}x${rows}.png")

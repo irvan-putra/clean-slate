@@ -48,12 +48,12 @@ class KemasWidgetProvider : AppWidgetProvider() {
             // In particular, a photo-strip update must not remain after a tall resize.
             if (Build.VERSION.SDK_INT >= 31) return RemoteViews(linkedMapOf(
                 SizeF(48f, 48f) to buildViews(c, true, true),
-                SizeF(150f, 48f) to buildViews(c, true, false),
-                SizeF(150f, 110f) to buildViews(c, false, false),
+                SizeF(100f, 48f) to buildViews(c, true, false),
+                SizeF(200f, 110f) to buildViews(c, false, false),
             ))
             return buildViews(c,
                 options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 48) < 110,
-                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 150)
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 100)
         }
 
         internal fun buildViews(c: Context): RemoteViews = buildViews(c, false)
