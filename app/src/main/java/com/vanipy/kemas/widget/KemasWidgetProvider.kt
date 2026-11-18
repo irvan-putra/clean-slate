@@ -40,8 +40,8 @@ class KemasWidgetProvider : AppWidgetProvider() {
             for (id in ids) mgr.updateAppWidget(id, buildViews(context, mgr.getAppWidgetOptions(id)))
         }
 
-        private const val THUMB_W = 240
-        private const val THUMB_H = 180
+        private const val THUMB_W = 160
+        private const val THUMB_H = 120
 
         internal fun buildViews(c: Context, options: Bundle): RemoteViews {
             // Let modern hosts choose the matching layout atomically during resize.
