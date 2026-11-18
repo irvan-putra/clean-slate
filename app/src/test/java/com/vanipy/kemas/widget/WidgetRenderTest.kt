@@ -50,15 +50,15 @@ class WidgetRenderTest {
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 64)
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 64)
         w = 48; h = 48
-        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-counter-48dp.png")
+        snapshot(KemasWidgetProvider.buildViews(c, true, true), c, "widget-counter-48dp.png")
         w = 64; h = 64
-        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-counter-64dp.png")
+        snapshot(KemasWidgetProvider.buildViews(c, true, true), c, "widget-counter-64dp.png")
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 350)
         w = 350
-        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-strip-350x64dp.png")
+        snapshot(KemasWidgetProvider.buildViews(c, true, false), c, "widget-strip-350x64dp.png")
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 240)
         h = 240
-        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-expanded-350x240dp.png")
+        snapshot(KemasWidgetProvider.buildViews(c, false, false), c, "widget-expanded-350x240dp.png")
         com.vanipy.kemas.demo.DemoMode.set(c, false)
     }
 

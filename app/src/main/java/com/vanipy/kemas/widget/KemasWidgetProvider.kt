@@ -9,6 +9,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Build
+import android.util.SizeF
 import android.view.View
 import android.widget.RemoteViews
 import com.vanipy.kemas.MainActivity
@@ -41,8 +43,18 @@ class KemasWidgetProvider : AppWidgetProvider() {
         private const val THUMB_W = 240
         private const val THUMB_H = 180
 
-        internal fun buildViews(c: Context, options: Bundle): RemoteViews =
-            buildViews(c, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 48) < 110, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 150)
+        internal fun buildViews(c: Context, options: Bundle): RemoteViews {
+            // Let modern hosts choose the matching layout atomically during resize.
+            // In particular, a photo-strip update must not remain after a tall resize.
+            if (Build.VERSION.SDK_INT >= 31) return RemoteViews(linkedMapOf(
+                SizeF(48f, 48f) to buildViews(c, true, true),
+                SizeF(150f, 48f) to buildViews(c, true, false),
+                SizeF(150f, 110f) to buildViews(c, false, false),
+            ))
+            return buildViews(c,
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 48) < 110,
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 150)
+        }
 
         internal fun buildViews(c: Context): RemoteViews = buildViews(c, false)
 
