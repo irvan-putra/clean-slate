@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,6 +47,29 @@ class WidgetRenderTest {
         com.vanipy.kemas.demo.DemoMode.set(c, true)
         snapshot(KemasWidgetProvider.buildViews(c), c, "widget-demo.png")
         c.getSharedPreferences("kemas_prefs", Context.MODE_PRIVATE).edit().clear().commit()
+    }
+
+    @Test
+    fun widgetDemoHidesRealStore() {
+        val c = RuntimeEnvironment.getApplication()
+        // Real store present with a real zone...
+        File(c.filesDir, "data.json").delete()
+        val store = com.vanipy.kemas.data.Store(File(c.filesDir, "data.json"))
+        store.addArea("Real bedroom")
+        // ...but demo mode must show only the made-up zone.
+        com.vanipy.kemas.demo.DemoMode.set(c, true)
+        val parent = FrameLayout(c)
+        val v = KemasWidgetProvider.buildViews(c).apply(c, parent)
+        assertEquals(
+            com.vanipy.kemas.demo.DemoData.ZONE,
+            v.findViewById<android.widget.TextView>(com.vanipy.kemas.R.id.widget_zone).text.toString(),
+        )
+        assertEquals(
+            View.VISIBLE,
+            v.findViewById<android.widget.TextView>(com.vanipy.kemas.R.id.widget_demo_badge).visibility,
+        )
+        c.getSharedPreferences("kemas_prefs", Context.MODE_PRIVATE).edit().clear().commit()
+        File(c.filesDir, "data.json").delete()
     }
 
     @Test

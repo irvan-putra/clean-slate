@@ -149,8 +149,8 @@ fun HomeScreen(
     version: Int,
     onOpenArea: (String) -> Unit,
     onAreaAdded: () -> Unit,
-    demoOn: Boolean,
-    onToggleDemo: () -> Unit,
+    demoOn: Boolean = false,
+    onToggleDemo: () -> Unit = {},
 ) {
     var newArea by remember { mutableStateOf("") }
     val areas = remember(version) { store.areas() }
