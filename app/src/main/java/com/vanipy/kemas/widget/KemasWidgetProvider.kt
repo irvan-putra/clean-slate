@@ -48,17 +48,19 @@ class KemasWidgetProvider : AppWidgetProvider() {
             // In particular, a photo-strip update must not remain after a tall resize.
             if (Build.VERSION.SDK_INT >= 31) return RemoteViews(linkedMapOf(
                 SizeF(48f, 48f) to buildViews(c, true, true),
-                SizeF(100f, 48f) to buildViews(c, true, false),
+                SizeF(100f, 48f) to buildViews(c, true, false, true),
+                SizeF(260f, 48f) to buildViews(c, true, false),
                 SizeF(200f, 110f) to buildViews(c, false, false),
             ))
             return buildViews(c,
                 options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 48) < 110,
-                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 100)
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 100,
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 260)
         }
 
         internal fun buildViews(c: Context): RemoteViews = buildViews(c, false)
 
-        internal fun buildViews(c: Context, compact: Boolean, tiny: Boolean = false): RemoteViews {
+        internal fun buildViews(c: Context, compact: Boolean, tiny: Boolean = false, textOnly: Boolean = false): RemoteViews {
             val v = RemoteViews(c.packageName, if (tiny) R.layout.widget_kemas_tiny else if (compact) R.layout.widget_kemas_compact else R.layout.widget_kemas)
             val demo = DemoMode.isOn(c)
             v.setViewVisibility(R.id.widget_demo_badge, View.GONE)
@@ -89,6 +91,12 @@ class KemasWidgetProvider : AppWidgetProvider() {
                     v.setTextViewText(R.id.widget_progress_text, "done")
                 }
                 v.setViewVisibility(R.id.widget_progress, View.GONE)
+                v.setViewVisibility(R.id.widget_before, View.GONE)
+                v.setViewVisibility(R.id.widget_after, View.GONE)
+            }
+
+            // Narrow short widgets prioritize readable zone/progress over tiny photos.
+            if (compact && !tiny && textOnly) {
                 v.setViewVisibility(R.id.widget_before, View.GONE)
                 v.setViewVisibility(R.id.widget_after, View.GONE)
             }
