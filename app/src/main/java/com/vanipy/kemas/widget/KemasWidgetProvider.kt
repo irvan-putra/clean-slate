@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
 import com.vanipy.kemas.MainActivity
@@ -23,21 +24,30 @@ import java.io.File
 class KemasWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, mgr: AppWidgetManager, ids: IntArray) {
-        for (id in ids) mgr.updateAppWidget(id, buildViews(context))
+        for (id in ids) mgr.updateAppWidget(id, buildViews(context, mgr.getAppWidgetOptions(id)))
+    }
+
+    override fun onAppWidgetOptionsChanged(c: Context, mgr: AppWidgetManager, id: Int, options: Bundle) {
+        mgr.updateAppWidget(id, buildViews(c, options))
     }
 
     companion object {
         fun updateAll(context: Context) {
             val mgr = AppWidgetManager.getInstance(context)
             val ids = mgr.getAppWidgetIds(ComponentName(context, KemasWidgetProvider::class.java))
-            for (id in ids) mgr.updateAppWidget(id, buildViews(context))
+            for (id in ids) mgr.updateAppWidget(id, buildViews(context, mgr.getAppWidgetOptions(id)))
         }
 
         private const val THUMB_W = 240
         private const val THUMB_H = 180
 
-        internal fun buildViews(c: Context): RemoteViews {
-            val v = RemoteViews(c.packageName, R.layout.widget_kemas)
+        internal fun buildViews(c: Context, options: Bundle): RemoteViews =
+            buildViews(c, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 48) < 110, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 48) < 150)
+
+        internal fun buildViews(c: Context): RemoteViews = buildViews(c, false)
+
+        internal fun buildViews(c: Context, compact: Boolean, tiny: Boolean = false): RemoteViews {
+            val v = RemoteViews(c.packageName, if (tiny) R.layout.widget_kemas_tiny else if (compact) R.layout.widget_kemas_compact else R.layout.widget_kemas)
             val demo = DemoMode.isOn(c)
             v.setViewVisibility(R.id.widget_demo_badge, if (demo) View.VISIBLE else View.GONE)
 
@@ -52,6 +62,21 @@ class KemasWidgetProvider : AppWidgetProvider() {
                 v.setTextViewText(R.id.widget_hint, "Made-up zone with generic illustrative photos")
             } else {
                 bindReal(c, v)
+            }
+
+            if (tiny) {
+                if (demo) {
+                    v.setTextViewText(R.id.widget_zone, "${DemoData.DONE}/${DemoData.TOTAL}")
+                    v.setTextViewText(R.id.widget_progress_text, "checks")
+                } else {
+                    val store = Store(File(c.filesDir, "data.json"))
+                    val sessions = store.areas().flatMap { store.sessionsFor(it.id) }
+                    v.setTextViewText(R.id.widget_zone, "${sessions.count { it.afterPath != null }}/${sessions.size}")
+                    v.setTextViewText(R.id.widget_progress_text, "all checks")
+                }
+                v.setViewVisibility(R.id.widget_progress, View.GONE)
+                v.setViewVisibility(R.id.widget_before, View.GONE)
+                v.setViewVisibility(R.id.widget_after, View.GONE)
             }
 
             val pi = PendingIntent.getActivity(

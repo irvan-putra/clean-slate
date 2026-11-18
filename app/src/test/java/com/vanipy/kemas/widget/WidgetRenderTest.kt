@@ -17,13 +17,13 @@ import org.robolectric.annotation.GraphicsMode
 import java.io.File
 import java.io.FileOutputStream
 
-/** Renders the home-screen widget exactly as the launcher would, to PNG. */
+/** Resource rendering only; actual widget-host qualification is separate. */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class WidgetRenderTest {
-    private val w = 660
-    private val h = 460
+    private var w = 660
+    private var h = 460
 
     private fun snapshot(rv: RemoteViews, c: Context, outName: String) {
         val parent = FrameLayout(c)
@@ -38,7 +38,26 @@ class WidgetRenderTest {
         val out = File("build/widget-snapshots", outName)
         out.parentFile!!.mkdirs()
         FileOutputStream(out).use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
-        assertTrue(out.length() > 2000)
+        assertTrue(out.length() > 300)
+    }
+
+    @Test
+    @Config(qualifiers = "mdpi")
+    fun counterAndCompactResize() {
+        val c = RuntimeEnvironment.getApplication()
+        com.vanipy.kemas.demo.DemoMode.set(c, true)
+        val options = android.os.Bundle()
+        options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 64)
+        options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 64)
+        w = 64; h = 64
+        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-counter-64dp.png")
+        options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 350)
+        w = 350
+        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-strip-350x64dp.png")
+        options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 240)
+        h = 240
+        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-expanded-350x240dp.png")
+        com.vanipy.kemas.demo.DemoMode.set(c, false)
     }
 
     @Test
