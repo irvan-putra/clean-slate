@@ -71,8 +71,10 @@ class KemasWidgetProvider : AppWidgetProvider() {
                 } else {
                     val store = Store(File(c.filesDir, "data.json"))
                     val sessions = store.areas().flatMap { store.sessionsFor(it.id) }
-                    v.setTextViewText(R.id.widget_zone, "${sessions.count { it.afterPath != null }}/${sessions.size}")
-                    v.setTextViewText(R.id.widget_progress_text, "all checks")
+                    val done = sessions.count { it.afterPath != null }
+                    v.setContentDescription(R.id.widget_root, "kemas: $done of ${sessions.size} checks complete across all zones. Tap for details.")
+                    v.setTextViewText(R.id.widget_zone, if (done > 999) "999+" else "$done")
+                    v.setTextViewText(R.id.widget_progress_text, "done")
                 }
                 v.setViewVisibility(R.id.widget_progress, View.GONE)
                 v.setViewVisibility(R.id.widget_before, View.GONE)

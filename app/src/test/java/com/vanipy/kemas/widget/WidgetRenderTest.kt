@@ -49,6 +49,8 @@ class WidgetRenderTest {
         val options = android.os.Bundle()
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 64)
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 64)
+        w = 48; h = 48
+        snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-counter-48dp.png")
         w = 64; h = 64
         snapshot(KemasWidgetProvider.buildViews(c, options), c, "widget-counter-64dp.png")
         options.putInt(android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 350)

@@ -7,7 +7,7 @@
     android:targetCellWidth="1"
     android:targetCellHeight="1"
     android:updatePeriodMillis="1800000"
-    android:initialLayout="@layout/widget_kemas"
+    android:initialLayout="@layout/widget_kemas_tiny"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:description="@string/widget_kemas_desc" />
