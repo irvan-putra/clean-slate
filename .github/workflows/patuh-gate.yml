@@ -16,14 +16,14 @@ permissions:
 
 jobs:
   source-gate:
-    uses: irvan-putra/patuh/.github/workflows/release-gate.yml@v0.2.1
+    uses: irvan-putra/patuh/.github/workflows/release-gate.yml@6f4b1eec2a8f73348725b7e3698d3e7bca93b890
     with:
       app: kemas
       published: false
 
   verify-live-release:
     if: github.event_name == 'workflow_dispatch'
-    uses: irvan-putra/patuh/.github/workflows/release-gate.yml@v0.2.1
+    uses: irvan-putra/patuh/.github/workflows/release-gate.yml@6f4b1eec2a8f73348725b7e3698d3e7bca93b890
     with:
       app: kemas
       published: true
