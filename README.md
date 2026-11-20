@@ -69,3 +69,7 @@ NOTICE for the licenses, which keep all your rights intact).
 - [Raised-hand pose-model comparison (historical, unreproduced)](docs/research/pose-models-for-raised-hand-counting-unreproduced.md) - a limited three-photo laptop test record; not a benchmark or current performance claim.
 - [On-device AI on Android](docs/research/on-device-ai-on-android.md) - an exploration of model options; no phone measurements were made.
 - [Soft talking ball](docs/research/soft-talking-ball.md) - a turn-taking idea, with recording explicitly optional and consent-based.
+
+## License
+
+AGPL-3.0: the GNU Affero General Public License, version 3 (see `LICENSE`). Declared for this repository by its owner on 2026-11-20, because the bundled YOLO models are AGPL-3.0. Other components keep their own licenses (see the "Sources and licenses" notes and `NOTICE.md`).
