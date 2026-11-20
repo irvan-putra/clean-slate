@@ -1,0 +1,8 @@
+Kemas web companion - provenance
+- Model: YOLO11n INT8 LiteRT (Arm export of Ultralytics YOLO11n), AGPL-3.0.
+  https://huggingface.co/Arm/yolo11n-int8-litert-vivo-x300
+  Same file as in the Android app (app/src/main/assets/yolo11n-int8.tflite). Full text: LICENSE.txt
+- Runtime: LiteRT.js (@litertjs/core 2.6.0), Apache-2.0. https://www.npmjs.com/package/@litertjs/core
+  License text: vendor/LICENSE-litertjs-Apache-2.0.txt
+- App code: ported from the Kemas Android app, AGPL-3.0 (declared by the owner 2026-11-20).
+  https://github.com/irvan-putra/kemas

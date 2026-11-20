@@ -72,4 +72,4 @@ NOTICE for the licenses, which keep all your rights intact).
 
 ## License
 
-AGPL-3.0: the GNU Affero General Public License, version 3 (see `LICENSE`). Declared for this repository by its owner on 2026-11-20, because the bundled YOLO models are AGPL-3.0. Other components keep their own licenses (see the "Sources and licenses" notes and `NOTICE.md`).
+AGPL-3.0: the GNU Affero General Public License, version 3 (see `LICENSE`). Declared for this repository by its owner on 2026-11-20, because the bundled YOLO models are AGPL-3.0. Other components keep their own licenses (see the "Sources and licenses" notes and `NOTICE`).

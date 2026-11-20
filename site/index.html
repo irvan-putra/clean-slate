@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kemas - before and after</title>
+<style>
+:root{color-scheme:light dark;--bg:#f6f7f4;--fg:#1c2420;--card:#fff;--ac:#1f7a5a;--mut:#5b6760;--bd:#d8ddd6}
+@media(prefers-color-scheme:dark){:root{--bg:#141815;--fg:#e8ece6;--card:#1d231f;--ac:#4cc79b;--mut:#9aa69e;--bd:#2f3832}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:760px;margin:0 auto;padding:16px}h1{margin:.2em 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:12px 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.slot img,.slot canvas{width:100%;border-radius:8px;background:var(--bd);min-height:90px;object-fit:cover}
+button,label.btn{display:inline-block;background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer;margin:6px 6px 0 0}
+@media(prefers-color-scheme:dark){button,label.btn{color:#0b1410}}
+button:disabled{opacity:.45;cursor:default}input[type=file]{display:none}
+.mut{color:var(--mut);font-size:.9em}canvas{max-width:100%}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left}
+a{color:var(--ac)}
+</style></head><body><main>
+<h1>Kemas</h1>
+<p>Take or pick a BEFORE photo and an AFTER photo of the same spot. This page marks what changed and tallies recognizable objects in each photo.</p>
+<p class="mut">Everything runs in this browser tab. Photos are never uploaded; the model file is downloaded once (4.6 MB) and the page makes no other network calls. This is a counterpart to the Android app, which stays the place for the camera ghost-overlay and the home-screen widget. The result counts known objects only. It does not judge whether anything is clean.</p>
+<div class="card"><div class="row">
+<div class="slot"><b>BEFORE</b><br><img id="imgB" alt="">
+<label class="btn">Camera or file<input id="fB" type="file" accept="image/*" capture="environment"></label>
+<label class="btn" style="background:var(--mut)">Pick from files<input id="fB2" type="file" accept="image/*"></label></div>
+<div class="slot"><b>AFTER</b><br><img id="imgA" alt="">
+<label class="btn">Camera or file<input id="fA" type="file" accept="image/*" capture="environment"></label>
+<label class="btn" style="background:var(--mut)">Pick from files<input id="fA2" type="file" accept="image/*"></label></div>
+</div>
+<button id="go" disabled>Compare</button> <span id="status" class="mut">Pick both photos.</span>
+<p class="mut">The camera button opens your phone camera where the browser supports it; on a computer both buttons open a file picker. Manual fallback: take the two photos with any camera app and pick them here.</p></div>
+<div class="card" id="out" hidden>
+<h2>Result</h2><p id="verdict"></p>
+<p><b id="pct"></b> of pixels changed (red = changed, dimmed = unchanged).</p>
+<canvas id="ov"></canvas>
+<table><thead><tr><th>Object</th><th>Before</th><th>After</th></tr></thead><tbody id="tb"></tbody></table>
+</div>
+<p class="mut"><a href="https://github.com/irvan-putra/kemas">Source (AGPL-3.0)</a> · <a href="https://github.com/irvan-putra/kemas">Android app (same repo)</a> · <a href="NOTICE.txt">Model and runtime licenses</a></p>
+<p class="mut">Not validated on a physical phone yet: camera capture and speed on phones are untested.</p>
+<script type="module" src="app.js"></script></main></body></html>
